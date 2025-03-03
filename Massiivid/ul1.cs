@@ -1,25 +1,25 @@
 //* Küsi kasutaja käest viis arvu ning väljasta need tagurpidises järjekorras.
 using System;
+using System.Collections.Generic;
+
 
 class Programm
 {
     public static void Main(string[] arg)
     {
-        int[] arvud;
-        while (arv <= 5)
+		List<int> arvud = new List<int>();
+        for (int i=0;i < 5; i++)
         {
             Console.WriteLine("Sisesta arv:");
             string arv_str = Console.ReadLine();
             int.TryParse(arv_str, out int arv);
-            arvud = arvud.Append(arv).ToArray();
-        } else
-        {
-            Console.WriteLine(arvud);
+            arvud.Add(arv);
         }
+        
+        for (int i = arvud.Count - 1; i >= 0; i--)
+        {
+            Console.WriteLine(arvud[i]);
+        }
+
     }
-    /*string[] cars = {"Volvo", "BMW", "Ford", "Mazda"};
-foreach (string i in cars) 
-{
-  Console.WriteLine(i);
-}*/
 }
