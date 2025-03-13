@@ -1,78 +1,134 @@
 using System;
 
-namespace Parilus2
+// Tunni broneeringu süsteem
+namespace Broneering
 {
-    class Inimene
+    // Üldine klass, millest kõik pärivad
+    class BroneeringuAndmed
     {
-        protected int vanus;
-        protected int pikkus;
-        public Inimene(int uvanus, int upikkus)
+        protected string nimi;
+
+        public BroneeringuAndmed(string unimi)
         {
-            vanus = uvanus;
-            pikkus = upikkus;
+            nimi = unimi;
         }
 
-        public void YtleVanus()
-        {
-            Console.WriteLine("Minu vanus on " + vanus + " aastat");
-        }
 
-        public void YtlePikkus()
+        public virtual void AndmeteKuvamine()
         {
-            Console.WriteLine("Minu pikkus on " + pikkus + " cm");
+            Console.WriteLine("Andmed: " + nimi);
         }
     }
 
-    class Modell : Inimene
+    class Hind
     {
-        protected int ymberm66t;
-        protected int[] inimesed;
-        public Modell(int vanus, int uymberm66t, int pikkus) : base(vanus, pikkus)
+        protected int hind;
+
+        public Hind(int uhind)
         {
-            ymberm66t = uymberm66t;
-            inimesed = new int[] { vanus, ymberm66t, pikkus };
+            hind = uhind;
         }
 
-        public void EsitleInimesi()
-        {
-            Console.WriteLine("Inimese andmed: ");
-            foreach (int andmed in inimesed)
-            {
-                Console.Write(andmed + " ");
-            }
-            Console.WriteLine();
-        }
 
-        public void Esitle()
+        public virtual void AndmeteKuvamine()
         {
-            YtleVanus();
-            Console.WriteLine("Mu ümbermõõt on " + ymberm66t + " sentimeetrit");
-            YtlePikkus();
-            EsitleInimesi();
-        }
-
-        public int kysiPikkus()
-        {
-            return pikkus;
+            Console.WriteLine("Andmed: " + nimi);
         }
     }
 
-    class InimTest
+    // Opilane pärib BroneeringuAndmed
+    class Opilane : BroneeringuAndmed
     {
-        public static void Main(string[] arg)
+        public Opilane(string unimi) : base(unimi) { }
+
+        public override void AndmeteKuvamine()
         {
-            Inimene inim1 = new Modell(20, 90, 175);
-            inim1.Esitle();
-            Inimene[] isikud = new Inimene[3];
-            isikud[0] = inim1;
-            isikud[0] = inim1;
-            isikud[1] = new Inimene(28, 165);
-            isikud[2] = new Model(28, 90, 165);
-            foreach (Inimene isik in isikud)
+            Console.WriteLine("Õpilane: " + nimi);
+        }
+        public string KysiNimi()
+        {
+            return nimi;
+        }
+    }
+
+    // Õpetaja pärib BroneeringuAndmed
+    class Opetaja : BroneeringuAndmed
+    {
+        public Opetaja(string unimi) : base(unimi) { }
+
+        public override void AndmeteKuvamine()
+        {
+            Console.WriteLine("Õpetaja: " + nimi);
+        }
+        public string KysiNimi()
+        {
+            return nimi;
+        }
+    }
+
+    // Pill pärib BroneeringuAndmed
+    class Pill : BroneeringuAndmed
+    {
+        public Pill(string unimi) : base(unimi) { }
+
+        public override void AndmeteKuvamine()
+        {
+            Console.WriteLine("Pill: " + nimi);
+        }
+        public string KysiNimi()
+        {
+            return nimi;
+        }
+    }
+
+    // Peamine klass, mis testib broneeringut
+    class TunniBroneering
+    {
+        public static void Main(string[] args)
+        {
+            DateTime currentDateTime = DateTime.Now;
+            DateTime tomorrowDate = DateTime.Now + new TimeSpan(2, 0, 0, 0);
+            DateTime dt = new DateTime(2025, 3, 14);
+            Pill pill = new Pill("Klaver");
+
+            Opilane[] opilased = new Opilane[4]
             {
-                isik.YtleVanus();
-                Console.WriteLine(isik.kysiPikkus());
+                new Opilane("Kaisa"),
+                new Opilane("Liisu"),
+                new Opilane("Markus"),
+                new Opilane("Mari-Liis")
+            };
+
+            Opetaja[] opetajad = new Opetaja[4]
+            {
+                new Opetaja("Mati"),
+                new Opetaja("Kristiina"),
+                new Opetaja("Ljudmila"),
+                new Opetaja("Markus")
+            };
+
+
+
+            for (int i = 0; i < opilased.Length; i++)
+            {
+
+                Console.WriteLine("");
+                Console.WriteLine("-----------");
+                Console.WriteLine("Broneering:|");
+                Console.WriteLine("-----------");
+
+
+                opetajad[i].AndmeteKuvamine();
+                opilased[i].AndmeteKuvamine();
+                pill.AndmeteKuvamine();
+
+                Console.WriteLine("Broneeritud: " + currentDateTime);
+                Console.WriteLine("Toimimis kuupäev(D/M/Y): " + tomorrowDate.Day + " / " + tomorrowDate.Month + " / " + tomorrowDate.Year);
+                Console.WriteLine("Algus: " + currentDateTime.Hour + "." + currentDateTime.Minute);
+                Console.WriteLine("Aeg (h): 1 ");
+                Console.WriteLine("Staatus: Kinnitatud");
             }
+
         }
     }
 }
